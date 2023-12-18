@@ -1,28 +1,31 @@
-import { useState } from 'react';
+import "../../styles.css";
+import { useState } from "react";
+import LoginPage from "../LoginPage/LoginPage";
 import { Routes, Route } from 'react-router-dom';
-import './App.css';
-import AuthPage from '../AuthPage/AuthPage';
-import NewOrderPage from '../NewOrderPage/NewOrderPage';
-import OrderHistoryPage from '../OrderHistoryPage/OrderHistoryPage';
-import NavBar from '../../components/NavBar/NavBar';
-
+import MovieList from "../MovieList/MovieList";
+import MovieDetail from "../MovieDetail/MovieDetail";
+import ActorList from "../ActorList/ActorList";
+import { movies } from "../../data";
+import NavBar from "../../components/NavBar/NavBar"
 export default function App() {
-  const [user, setUser] = useState({});
-
+  const [user, setUser] = useState(null);
   return (
-    <main className="App">
-      { user ?
-          <>
-            <NavBar />
-            <Routes>
-              {/* Route components in here */}
-              <Route path="/orders/new" element={<NewOrderPage />} />
-              <Route path="/orders" element={<OrderHistoryPage />} />
-            </Routes>
-          </>
-          :
-          <AuthPage />
-      }
-    </main>
+    <>
+      {user ? (
+        <>
+        <NavBar />
+          <Routes>
+            <Route path="/" element={<MovieList movies={movies} />} />
+            <Route path="/movies/:movieName" element={<MovieDetail movies={movies} />} />
+            <Route path="/actors" element={<ActorList movies={movies} />} />
+            
+          </Routes>
+        </>
+      ) : (
+        <>
+          <LoginPage setUser={setUser} />
+        </>
+      )}
+    </>
   );
 }
